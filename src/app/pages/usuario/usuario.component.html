@@ -1,0 +1,173 @@
+<div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-10">
+          <div class="card-title">Lista de usuários</div>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary" (click)="abrirModalCriarUsuario(modalFormularioUsuario)">
+            Novo usuário
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Sobrenome</th>
+                <th scope="col">Aniversário</th>
+                <th scope="col">Opções</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let usuario of listaUsuarios">
+                <td>{{usuario.nome}}</td>
+                <td>{{usuario.sobrenome}}</td>
+                <td>{{usuario.dataNascimento | date:'dd/MM/yyyy' }}</td>
+                <td>
+                    <button class="btn btn-danger" (click)="abrirModalRemoverUsuario(usuario, modalRemoverUsuario)">
+                        Remover
+                    </button>
+                    <button class="btn btn-warning" (click)="abrirModalAtualizarUsuario(usuario, modalFormularioUsuarioAtualizar)">
+                      Atualizar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+  </div>
+
+  <ng-template #modalRemoverUsuario>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Remover usuário</h4>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Deseja remover o usuário <b>{{usuario.nome}}</b>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" (click)="removerUsuario()">
+        Confirmar
+      </button>
+      <button class="btn btn-secondary" (click)="modalRef?.hide()">
+        Cancelar
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #modalFormularioUsuario>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Adicionar usuário</h4>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formularioUsuario">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputAddress">Nome</label>
+            <input formControlName="nome" type="text" class="form-control" id="nomeUsuario">
+            <small *ngIf="formularioUsuario.controls.nome.invalid && formularioUsuario.controls.nome.touched" class="text-danger" >Campo obrigatório</small>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputAddress2">Sobrenome</label>
+            <input formControlName="sobrenome" type="text" class="form-control" id="sobrenomeUsuario">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="inputEmail4">Email</label>
+            <input formControlName="email" type="email" class="form-control" id="emailUsuario">
+            <small *ngIf="formularioUsuario.controls.email.invalid && formularioUsuario.controls.email.touched" class="text-danger" >Email invalido</small>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputCity">Data de nascimento</label>
+            <input formControlName="dataNascimento" type="date" class="form-control" id="dtNascimentoUsuario">
+            <small *ngIf="formularioUsuario.controls.dataNascimento.invalid && formularioUsuario.controls.dataNascimento.touched" class="text-danger">
+              Campo obrigatório</small>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="escolaridade">Escolaridade</label>
+            <select formControlName="escolaridade" id="escolaridade" class="form-control">
+              <option value="1">Infantil</option>
+              <option value="2">Fundamental</option>
+              <option value="3">Médio</option>
+              <option value="4">Superior</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" (click)="criarUsuario()" [disabled]="formularioUsuario.invalid">
+        Salvar
+      </button>
+      <button class="btn btn-secondary" (click)="modalRef?.hide()">
+        Cancelar
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #modalFormularioUsuarioAtualizar>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Atualizar usuario</h4>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formularioUsuario">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputAddress">Nome</label>
+            <input formControlName="nome" type="text" class="form-control" id="nomeUsuario">
+            <small *ngIf="formularioUsuario.controls.nome.invalid && formularioUsuario.controls.nome.touched" class="text-danger" >Campo obrigatório</small>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputAddress2">Sobrenome</label>
+            <input formControlName="sobrenome" type="text" class="form-control" id="sobrenomeUsuario">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="inputEmail4">Email</label>
+            <input formControlName="email" type="email" class="form-control" id="emailUsuario">
+            <small *ngIf="formularioUsuario.controls.email.invalid && formularioUsuario.controls.email.touched" class="text-danger" >Email invalido</small>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputCity">Data de nascimento</label>
+            <input formControlName="dataNascimento" type="date" class="form-control" id="dtNascimentoUsuario">
+            <small *ngIf="formularioUsuario.controls.dataNascimento.invalid && formularioUsuario.controls.dataNascimento.touched" class="text-danger">
+              Campo obrigatório</small>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="escolaridade">Escolaridade</label>
+            <select formControlName="escolaridade" id="escolaridade" class="form-control">
+              <option value="1">Infantil</option>
+              <option value="2">Fundamental</option>
+              <option value="3">Médio</option>
+              <option value="4">Superior</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" (click)="atualizarUsuario()" [disabled]="formularioUsuario.invalid">
+        Salvar
+      </button>
+      <button class="btn btn-secondary" (click)="modalRef?.hide()">
+        Cancelar
+      </button>
+    </div>
+  </ng-template>
